@@ -1,0 +1,6 @@
+node_modules/
+.env
+agent/auth.json
+agent/sessions/
+agent/models-store.json
+agent/cache/

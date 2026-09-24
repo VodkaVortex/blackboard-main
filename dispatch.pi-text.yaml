@@ -1,0 +1,34 @@
+# Uses this checkout's pi-coding-agent/pi and its existing provider configuration.
+# No worker tools; only supplied blackboard text is sent to the model.
+# Load credentials with: uv run --env-file .env --project cairn cairn dispatch --config dispatch.pi-text.yaml
+server: "http://127.0.0.1:8000"
+runtime:
+  execution: local
+  worker_healthcheck: disabled
+  max_workers: 1
+  max_running_projects: 1
+  max_project_workers: 1
+  interval: 3
+  healthcheck_timeout: 15
+  prompt_group: text
+tasks:
+  bootstrap:
+    timeout: 120
+    conclude_timeout: 30
+  reason:
+    timeout: 120
+    max_intents: 2
+  explore:
+    timeout: 120
+    conclude_timeout: 30
+local:
+  workspace_root: "~/blackboard-main/datas/pi-text-workspaces"
+  completed_action: keep
+common_env:
+  PI_TELEMETRY: "0"
+workers:
+  - name: personal-pi-text
+    type: pi_text
+    task_types: [bootstrap, reason, explore]
+    max_running: 1
+    priority: 0

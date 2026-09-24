@@ -1,0 +1,33 @@
+# Native Pi tools and configuration, with general development task prompts.
+server: "http://127.0.0.1:8000"
+runtime:
+  execution: local
+  worker_healthcheck: disabled
+  max_workers: 1
+  max_running_projects: 1
+  max_project_workers: 1
+  interval: 3
+  healthcheck_timeout: 15
+  prompt_group: development
+tasks:
+  bootstrap:
+    timeout: 240
+    conclude_timeout: 30
+  reason:
+    timeout: 120
+    max_intents: 2
+  explore:
+    timeout: 240
+    conclude_timeout: 30
+local:
+  # start-cairn.sh resolves this relative to this configuration file.
+  working_directory: "."
+  completed_action: keep
+common_env:
+  PI_TELEMETRY: "0"
+workers:
+  - name: personal-pi-dev
+    type: pi_dev
+    task_types: [bootstrap, reason, explore]
+    max_running: 1
+    priority: 0

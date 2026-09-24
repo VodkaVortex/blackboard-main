@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+CAIRN_PROJECT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+cd "$CAIRN_PROJECT_DIR"
+CAIRN_ENV_ARGS=()
+if [[ -f "$CAIRN_PROJECT_DIR/.env" ]]; then
+  CAIRN_ENV_ARGS=(--env-file "$CAIRN_PROJECT_DIR/.env")
+fi
+if [[ $# -eq 0 ]]; then
+  set -- start
+fi
+exec uv run "${CAIRN_ENV_ARGS[@]}" --project "$CAIRN_PROJECT_DIR/cairn" cairn "$@"
